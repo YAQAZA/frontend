@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/widget/core_widgets.dart';
 
 class AlertSensitivityScreen extends StatefulWidget {
   const AlertSensitivityScreen({super.key});
@@ -79,24 +80,19 @@ class _AlertSensitivityScreenState extends State<AlertSensitivityScreen> {
               activeColor: AppColors.primaryColor,
             ),
             SizedBox(height: AppValues.spacingMedium),
-            SizedBox(
+            AppFilledIconButton(
+              expandWidth: true,
               height: AppValues.buttonHeight,
-              child: FilledButton.icon(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(AppStrings.testAlertSound),
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                  );
-                },
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: AppColors.textWhite,
-                ),
-                icon: const Icon(Icons.volume_up),
-                label: const Text(AppStrings.testAlertSound),
-              ),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppStrings.testAlertSound),
+                    backgroundColor: AppColors.primaryColor,
+                  ),
+                );
+              },
+              icon: Icons.volume_up,
+              label: AppStrings.testAlertSound,
             ),
             const Spacer(),
             Center(

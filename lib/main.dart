@@ -12,6 +12,9 @@ import 'features/auth/view/screens/settings_screen.dart';
 import 'features/auth/view/screens/alert_sensitivity_screen.dart';
 import 'features/auth/view/screens/change_password_screen.dart';
 import 'features/auth/view_model/cubit/auth_cubit.dart';
+import 'features/session/view/screens/session_start_screen.dart';
+import 'features/session/view/screens/session_active_screen.dart';
+import 'features/session/view_model/cubit/session_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +27,14 @@ class YaqazahApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<AuthCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<AuthCubit>()),
+        BlocProvider(create: (_) => sl<SessionCubit>()),
+      ],
       child: MaterialApp(
         title: 'Yaqazah',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
           useMaterial3: true,
@@ -55,12 +62,22 @@ class YaqazahApp extends StatelessWidget {
               return MaterialPageRoute(
                 builder: (_) => const AlertSensitivityScreen(),
               );
+            case AppRoutes.sessionStart:
+              return MaterialPageRoute(
+                builder: (_) => const SessionStartScreen(),
+              );
+            case AppRoutes.sessionActive:
+              return MaterialPageRoute(
+                builder: (_) => const SessionActiveScreen(),
+              );
             case '/change-password':
               return MaterialPageRoute(
                 builder: (_) => const ChangePasswordScreen(),
               );
             default:
-              return MaterialPageRoute(builder: (_) => const LoginScreen());
+              return MaterialPageRoute(
+                builder: (_) => const SessionStartScreen(),
+              );
           }
         },
       ),

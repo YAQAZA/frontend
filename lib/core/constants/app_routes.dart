@@ -8,4 +8,6 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String settings = '/settings';
   static const String alertSensitivity = '/alert-sensitivity';
+  static const String sessionStart = '/session';
+  static const String sessionActive = '/session/active';
 }

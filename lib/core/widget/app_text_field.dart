@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_values.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({

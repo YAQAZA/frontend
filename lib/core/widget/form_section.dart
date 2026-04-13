@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../constants/app_values.dart';
 
 /// Wraps a form field (label + input) with consistent spacing.
 class FormSection extends StatelessWidget {

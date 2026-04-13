@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_values.dart';
 
+/// Full-width primary filled button (loading state + optional trailing icon).
 class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
@@ -20,6 +22,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: AppValues.buttonHeight,
+      width: double.infinity,
       child: FilledButton(
         onPressed: isLoading ? null : onPressed,
         style: FilledButton.styleFrom(
@@ -45,31 +48,22 @@ class AppButton extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final theme = Theme.of(context);
+    final textStyle = theme.textTheme.titleMedium?.copyWith(
+      color: AppColors.textWhite,
+      fontWeight: FontWeight.w600,
+      fontSize: AppValues.buttonFontSize,
+    );
     if (trailingIcon != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: AppColors.textWhite,
-              fontWeight: FontWeight.w600,
-              fontSize: AppValues.buttonFontSize,
-            ),
-          ),
+          Text(label, style: textStyle),
           SizedBox(width: AppValues.spacingSmall),
           trailingIcon!,
         ],
       );
     }
-    return Text(
-      label,
-      style: theme.textTheme.titleMedium?.copyWith(
-        color: AppColors.textWhite,
-        fontWeight: FontWeight.w600,
-        fontSize: AppValues.buttonFontSize,
-      ),
-    );
+    return Text(label, style: textStyle);
   }
 }

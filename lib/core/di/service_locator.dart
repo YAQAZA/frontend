@@ -7,6 +7,9 @@ import '../network/dio_consumer.dart';
 import '../../features/auth/model/repositories/auth_repository.dart';
 import '../../features/auth/model/services/auth_service.dart';
 import '../../features/auth/view_model/cubit/auth_cubit.dart';
+import '../../features/session/model/repositories/session_repository.dart';
+import '../../features/session/model/services/session_service.dart';
+import '../../features/session/view_model/cubit/session_cubit.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -29,13 +32,26 @@ Future<void> initServiceLocator() async {
   // 3. Services (AuthService uses dummy data for now)
   sl.registerLazySingleton<AuthService>(() => AuthService());
 
+  // 3.5. Session services (dummy for now)
+  sl.registerLazySingleton<SessionService>(
+    () => SessionService(sl<ApiConsumer>()),
+  );
+
   // 4. Repositories
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepository(sl<AuthService>()),
   );
 
+  sl.registerLazySingleton<SessionRepository>(
+    () => SessionRepository(sl<SessionService>()),
+  );
+
   // 5. Cubits
   sl.registerFactory<AuthCubit>(
     () => AuthCubit(sl<AuthRepository>()),
+  );
+
+  sl.registerFactory<SessionCubit>(
+    () => SessionCubit(sl<SessionRepository>()),
   );
 }

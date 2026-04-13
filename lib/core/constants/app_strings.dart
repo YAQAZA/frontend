@@ -91,6 +91,42 @@ class AppStrings {
   static const String alertVolume = 'Alert Volume';
   static const String testAlertSound = 'Test Alert Sound';
   static const String appVersionLabel = 'Yaqazah AI Monitoring v2.4.0';
+  
+  // Session
+  static const String liveMonitoringTitle = 'Yaqazah';
+  static const String sessionHeaderSubtitle = 'LIVE MONITORING';
+  static const String startDrivingSession = 'Start Driving Session';
+  static const String start = 'START';
+  static const String safetyScore = 'Safety Score';
+  static const String basedOnLastDays = 'Based on last 7 days';
+  static const String preDriveCheck = 'Pre-Drive Check';
+  static const String ensurePhoneMounted =
+      'Ensure your phone is securely mounted for accurate AI detection.';
+  static const String fatigueLevel = 'FATIGUE LEVEL';
+  static const String sleepinessProbability = 'Sleepiness Probability';
+  static const String lowRisk = 'Low Risk';
+  static const String highRisk = 'High Risk';
+  static const String alertThreshold = 'Alert Threshold: 75%';
+  static const String pauseSession = 'Pause Session';
+  static const String endSession = 'End Session';
+  static const String statusNormal = 'NORMAL';
+  static const String statusDrowsy = 'DROWSY';
+  static const String statusSleepy = 'SLEEPY';
+  static const String drowsinessDetected = 'Drowsiness Detected';
+  static const String distractionDetected = 'Distraction Detected';
+  static const String drowsinessDetectedBody =
+      'Your attention levels seem low. Safety is our priority. Please pull over if you feel tired.';
+  static const String distractionDetectedBody =
+      'Phone Usage. Please focus in the road!';
+  static const String remind = 'remind';
+  static const String iamAlert = 'I AM ALERT';
+  static const String ok = 'OK';
+
+  // Bottom navigation
+  static const String home = 'Home';
+  static const String sessionTab = 'Session';
+  static const String stats = 'Stats';
+  static const String profileTab = 'Profile';
 
   // Profile sections
   static const String driverInfo = 'DRIVER INFO';

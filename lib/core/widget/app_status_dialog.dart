@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/constants.dart';
+import '../constants/app_colors.dart';
+import '../constants/app_values.dart';
+import 'app_button.dart';
+import 'app_rounded_dialog.dart';
 
-class StatusDialog extends StatelessWidget {
-  const StatusDialog({
+/// Success / info dialog with icon, title, body, and primary action.
+class AppStatusDialog extends StatelessWidget {
+  const AppStatusDialog({
     super.key,
     required this.title,
     required this.body,
@@ -19,10 +23,8 @@ class StatusDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppValues.borderRadius),
-      ),
+    return AppRoundedDialog(
+      borderRadius: AppValues.borderRadius,
       child: Padding(
         padding: EdgeInsets.all(AppValues.spacingXLarge),
         child: Column(
@@ -31,7 +33,7 @@ class StatusDialog extends StatelessWidget {
             Container(
               width: AppValues.logoSize,
               height: AppValues.logoSize,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.successLight,
                 shape: BoxShape.circle,
               ),
@@ -59,28 +61,12 @@ class StatusDialog extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: AppValues.spacingXLarge),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: onPrimaryPressed ??
-                    () {
-                      Navigator.of(context).pop();
-                    },
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: AppColors.textWhite,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppValues.borderRadius),
-                  ),
-                ),
-                child: Text(
-                  primaryLabel,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: AppColors.textWhite,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+            AppButton(
+              label: primaryLabel,
+              onPressed: onPrimaryPressed ??
+                  () {
+                    Navigator.of(context).pop();
+                  },
             ),
           ],
         ),
@@ -88,4 +74,3 @@ class StatusDialog extends StatelessWidget {
     );
   }
 }
-

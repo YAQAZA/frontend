@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
+import '../../../../core/widget/core_widgets.dart';
 import '../../view_model/cubit/auth_cubit.dart';
 import '../../view_model/cubit/auth_state.dart';
 
@@ -238,34 +239,22 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildPrimaryActions(BuildContext context, ThemeData theme) {
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: AppValues.buttonHeight,
-          child: FilledButton(
-            onPressed: () {},
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
-              foregroundColor: AppColors.textWhite,
-            ),
-            child: const Text(AppStrings.saveChanges),
-          ),
+        AppButton(
+          label: AppStrings.saveChanges,
+          onPressed: () {},
         ),
         SizedBox(height: AppValues.spacingMedium),
-        SizedBox(
-          width: double.infinity,
-          height: AppValues.buttonHeight,
-          child: OutlinedButton(
-            onPressed: () => Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.login,
-              (route) => false,
-            ),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.danger,
-              side: const BorderSide(color: AppColors.danger),
-            ),
-            child: const Text(AppStrings.logOut),
+        AppOutlinedButton(
+          label: AppStrings.logOut,
+          onPressed: () => Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.login,
+            (route) => false,
           ),
+          borderColor: AppColors.danger,
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColors.danger,
+          fixedHeight: AppValues.buttonHeight,
         ),
       ],
     );

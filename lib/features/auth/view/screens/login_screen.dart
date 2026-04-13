@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
     if (state is AuthSuccess) {
       Navigator.pushNamedAndRemoveUntil(
         context,
-        AppRoutes.profile,
+        AppRoutes.sessionStart,
         (route) => false,
       );
     }

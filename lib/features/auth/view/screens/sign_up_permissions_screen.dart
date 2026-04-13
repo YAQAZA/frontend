@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
-import '../widgets/app_button.dart';
+import '../../../../core/widget/core_widgets.dart';
 import '../widgets/permission_tile.dart';
 
 class SignUpPermissionsScreen extends StatefulWidget {

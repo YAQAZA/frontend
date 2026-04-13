@@ -3,12 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
+import '../../../../core/widget/core_widgets.dart';
 import '../../view_model/cubit/auth_cubit.dart';
 import '../../view_model/cubit/auth_state.dart';
-import '../widgets/app_button.dart';
-import '../widgets/app_text_field.dart';
-import '../widgets/form_section.dart';
-import '../widgets/status_dialog.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -35,7 +32,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final paddingH = SizeHelper.screenPaddingHorizontal(context);
     final topPadding = SizeHelper.screenPaddingTop(context);
 
@@ -52,7 +48,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         if (state is AuthPasswordChangedSuccess) {
           showDialog<void>(
             context: context,
-            builder: (_) => StatusDialog(
+            builder: (_) => AppStatusDialog(
               title: AppStrings.passwordChangedTitle,
               body: AppStrings.passwordChangedBody,
               primaryLabel: AppStrings.login,

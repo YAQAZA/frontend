@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
-import 'app_button.dart';
-import 'app_text_field.dart';
+import '../../../../core/widget/core_widgets.dart';
 import 'forgot_password_link.dart';
-import 'form_section.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({

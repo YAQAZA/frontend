@@ -3,12 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
+import '../../../../core/widget/core_widgets.dart';
 import '../../view_model/cubit/auth_cubit.dart';
 import '../../view_model/cubit/auth_state.dart';
-import '../widgets/app_button.dart';
-import '../widgets/app_text_field.dart';
-import '../widgets/form_section.dart';
-import '../widgets/status_dialog.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -45,7 +42,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         if (state is AuthForgotPasswordSuccess) {
           showDialog<void>(
             context: context,
-            builder: (dialogContext) => StatusDialog(
+            builder: (dialogContext) => AppStatusDialog(
               title: AppStrings.emailSentTitle,
               body: AppStrings.emailSentBody,
               primaryLabel: AppStrings.openEmailApp,

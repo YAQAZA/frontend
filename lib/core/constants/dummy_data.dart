@@ -2,8 +2,8 @@
 class DummyData {
   DummyData._();
 
-  static const String loginEmail = 'alex.driver@yaqazah.com';
-  static const String loginPassword = 'password123';
+  static const String loginEmail = 't@gmail.com';
+  static const String loginPassword = 'test1234';
 
   static const Map<String, dynamic> dummyUserMap = <String, dynamic>{
     'id': '1',

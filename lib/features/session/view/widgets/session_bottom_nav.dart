@@ -3,17 +3,27 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/constants.dart';
 
 class SessionBottomNav extends StatelessWidget {
-  const SessionBottomNav({super.key, required this.selectedIndex, this.onTap});
+  const SessionBottomNav({super.key, required this.selectedIndex});
 
   final int selectedIndex;
-  final ValueChanged<int>? onTap;
+
+  static const List<String> _screens = [
+        AppRoutes.sessionStart,
+        AppRoutes.sessionsHistory,
+        AppRoutes.stats,
+        AppRoutes.profile,
+      ];
 
   @override
   Widget build(BuildContext context) {
     final labelStyle = Theme.of(context).textTheme.labelSmall;
     return BottomNavigationBar(
       currentIndex: selectedIndex,
-      onTap: onTap,
+      onTap: (index) {
+        if (index != selectedIndex) {
+          Navigator.pushNamed(context, _screens[index]);
+        }
+      },
       type: BottomNavigationBarType.fixed,
       backgroundColor: AppColors.backgroundLight,
       selectedItemColor: AppColors.primaryColor,
@@ -38,6 +48,28 @@ class SessionBottomNav extends StatelessWidget {
           label: AppStrings.profileTab,
         ),
       ],
+    );
+  }
+}
+
+class SessionHistory extends StatelessWidget {
+  const SessionHistory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Session History'),
+    );
+  }
+}
+
+class StatsScreen extends StatelessWidget {
+  const StatsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Stats Screen'),
     );
   }
 }

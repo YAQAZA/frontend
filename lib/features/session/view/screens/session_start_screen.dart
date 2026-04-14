@@ -47,11 +47,6 @@ class SessionStartScreen extends StatelessWidget {
               height: AppValues.bottomNavHeight,
               child: SessionBottomNav(
                 selectedIndex: 0,
-                onTap: (index) {
-                  if (index == 3) {
-                    Navigator.pushNamed(context, AppRoutes.profile);
-                  }
-                },
               ),
             ),
           ],

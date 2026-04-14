@@ -5,10 +5,8 @@ import '../../../../core/constants/constants.dart';
 class SessionAppHeader extends StatelessWidget {
   const SessionAppHeader({
     super.key,
-    this.onSettingsTap,
   });
 
-  final VoidCallback? onSettingsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +51,9 @@ class SessionAppHeader extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: onSettingsTap,
+            onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.settings);
+            },
             icon: const Icon(
               Icons.settings,
               color: AppColors.textWhite,

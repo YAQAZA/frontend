@@ -98,8 +98,6 @@ class MetricsWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: AppValues.spacingXLarge),
-            SessionButtonsWidget(isPaused: isPaused),
           ],
         ),
       ),

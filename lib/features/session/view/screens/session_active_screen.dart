@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
 import '../../model/models/session_alert_type.dart';
@@ -13,6 +12,7 @@ import '../widgets/session_app_header.dart';
 import '../widgets/session_alert_dialog.dart';
 import '../../view_model/cubit/session_cubit.dart';
 import '../../view_model/cubit/session_state.dart';
+import '../widgets/session_buttons_widget.dart';
 import '../widgets/status_widget.dart';
 import '../widgets/timer_widget.dart';
 
@@ -76,7 +76,6 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
     _cameraInitializing = false;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final paddingH = SizeHelper.screenPaddingHorizontal(context);
@@ -171,9 +170,23 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
                 TimerWidget(elapsed: elapsed),
                 CameraWidget(),
                 SizedBox(height: AppValues.spacingMedium),
-                StatusWidget(paddingH: paddingH, chipColor: chipColor, borderColor: borderColor, status: status),
+                StatusWidget(
+                  paddingH: paddingH,
+                  chipColor: chipColor,
+                  borderColor: borderColor,
+                  status: status,
+                ),
                 SizedBox(height: AppValues.spacingMedium),
-                MetricsWidget(paddingH: paddingH, sleepinessProbability: sleepinessProbability, barColor: barColor, riskLabel: riskLabel, threshold: threshold, isPaused: isPaused),
+                MetricsWidget(
+                  paddingH: paddingH,
+                  sleepinessProbability: sleepinessProbability,
+                  barColor: barColor,
+                  riskLabel: riskLabel,
+                  threshold: threshold,
+                  isPaused: isPaused,
+                ),
+                SizedBox(height: AppValues.spacingXLarge),
+                SessionButtonsWidget(isPaused: isPaused),
               ],
             ),
           ),
@@ -182,5 +195,3 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
     );
   }
 }
-
-

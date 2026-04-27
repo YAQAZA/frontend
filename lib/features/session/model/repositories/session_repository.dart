@@ -1,6 +1,6 @@
 import '../models/session_metrics_model.dart';
-import '../models/session_event_log_model.dart';
-import '../models/session_alert_type.dart';
+import '../models/detection_log_model.dart';
+import '../models/alert_type.dart';
 import '../services/session_log_local_service.dart';
 import '../services/session_log_remote_service.dart';
 import '../services/session_service.dart';
@@ -24,19 +24,21 @@ class SessionRepository {
 
   Future<void> saveAlertLog({
     required String sessionId,
-    required SessionAlertType alertType,
+    required AlertType alertType,
     required Duration elapsed,
     required int sleepinessProbability,
-    required String statusLabel,
+    required String severity,
+    required String imageURL,
+    required String description,
   }) async {
-    final log = SessionEventLogModel(
+    final log = DetectionLogModel(
       sessionId: sessionId,
       alertType: alertType,
-      detectedAtIso: DateTime.now().toUtc().toIso8601String(),
-      elapsedSeconds: elapsed.inSeconds,
+      timestamp: DateTime.now().toUtc().toIso8601String(),
       sleepinessProbability: sleepinessProbability,
-      statusLabel: statusLabel,
-      synced: false,
+      severity: severity,
+      description: description,
+      imageURL: imageURL
     );
     await _sessionLogLocalService.insertLog(log);
   }

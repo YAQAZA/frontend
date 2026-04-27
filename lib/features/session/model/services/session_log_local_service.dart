@@ -1,7 +1,7 @@
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
-import '../models/session_event_log_model.dart';
+import '../models/detection_log_model.dart';
 
 class SessionLogLocalService {
   SessionLogLocalService();
@@ -39,12 +39,12 @@ class SessionLogLocalService {
     return _database!;
   }
 
-  Future<void> insertLog(SessionEventLogModel log) async {
+  Future<void> insertLog(DetectionLogModel log) async {
     final db = await _db();
     await db.insert(_tableName, log.toSqlMap());
   }
 
-  Future<List<SessionEventLogModel>> getPendingLogs() async {
+  Future<List<DetectionLogModel>> getPendingLogs() async {
     final db = await _db();
     final rows = await db.query(
       _tableName,
@@ -53,7 +53,7 @@ class SessionLogLocalService {
       orderBy: 'id ASC',
     );
     return rows
-        .map((row) => SessionEventLogModel.fromSqlMap(row))
+        .map((row) => DetectionLogModel.fromSqlMap(row))
         .toList(growable: false);
   }
 

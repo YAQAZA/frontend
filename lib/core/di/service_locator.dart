@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:yaqazah/features/session/model/services/detection_service.dart';
 
 import '../constants/constants.dart';
+import '../database/database_service.dart';
+import '../database/sqflite/app_database.dart';
+import '../database/sqflite/sqflite_service.dart';
 import '../network/api_consumer.dart';
 import '../network/dio_consumer.dart';
 import '../../features/auth/model/repositories/auth_repository.dart';
@@ -39,7 +43,7 @@ Future<void> initServiceLocator() async {
 
   // 3.5. Session services (dummy for now)
   sl.registerLazySingleton<SessionService>(
-    () => SessionService(sl<ApiConsumer>()),
+    () => SessionService(sl<DetectionService>()),
   );
   sl.registerLazySingleton<SessionLogLocalService>(
     SessionLogLocalService.new,
@@ -49,6 +53,9 @@ Future<void> initServiceLocator() async {
   );
   sl.registerLazySingleton<LogHistoryService>(
     () => LogHistoryService(sl<ApiConsumer>()),
+  );
+  sl.registerLazySingleton<DetectionService>(
+    () => DetectionService(),
   );
 
   // 4. Repositories
@@ -78,4 +85,8 @@ Future<void> initServiceLocator() async {
   sl.registerFactory<LogHistoryCubit>(
     () => LogHistoryCubit(sl<LogHistoryRepository>()),
   );
+
+  sl.registerLazySingleton<DatabaseService>(
+  () => SqfliteService(AppDatabase.instance),
+);
 }

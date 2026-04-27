@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/models/log_history_item_model.dart';
+import '../../model/models/history_session_model.dart';
 import '../../model/repositories/log_history_repository.dart';
 import 'log_history_state.dart';
 
@@ -15,8 +15,8 @@ class LogHistoryCubit extends Cubit<LogHistoryState> {
       final summary = await _logHistoryRepository.fetchSummary();
       final logs = await _logHistoryRepository.fetchHistory();
 
-      final todayLogs = <LogHistoryItemModel>[];
-      final yesterdayLogs = <LogHistoryItemModel>[];
+      final todayLogs = <HistorySessionModel>[];
+      final yesterdayLogs = <HistorySessionModel>[];
       for (final log in logs) {
         if (log.startedAtLabel.contains('Oct 24')) {
           todayLogs.add(log);

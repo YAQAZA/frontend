@@ -78,7 +78,7 @@ class LogHistorySummaryCards extends StatelessWidget {
                     ),
                     SizedBox(width: AppValues.spacingSmall),
                     Text(
-                      summary.totalDrivesPeriodLabel,
+                      'in last 30 days',
                       style: textTheme.bodyMedium?.copyWith(
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.w600,

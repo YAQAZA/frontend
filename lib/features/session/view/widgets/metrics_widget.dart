@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_values.dart';
+import '../../../../core/constants/dummy_data.dart';
 import 'session_buttons_widget.dart';
 
 class MetricsWidget extends StatelessWidget {
@@ -13,7 +14,6 @@ class MetricsWidget extends StatelessWidget {
     required this.sleepinessProbability,
     required this.barColor,
     required this.riskLabel,
-    required this.threshold,
     required this.isPaused,
   });
 
@@ -21,7 +21,6 @@ class MetricsWidget extends StatelessWidget {
   final int sleepinessProbability;
   final Color barColor;
   final String riskLabel;
-  final int threshold;
   final bool isPaused;
 
   @override
@@ -89,7 +88,7 @@ class MetricsWidget extends StatelessWidget {
                       ),
                 ),
                 Text(
-                  'Alert Threshold: ${threshold}%',
+                  'Alert Threshold: ${DummyData.alertThreshold}%',
                   style: Theme.of(context).textTheme.bodyMedium
                       ?.copyWith(
                         color: AppColors.textMedium,

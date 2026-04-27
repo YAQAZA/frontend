@@ -1,44 +1,62 @@
 import '../../../../core/constants/constants.dart';
-import '../../../../core/network/api_consumer.dart';
+import '../models/alert_type.dart';
+import '../models/detection_result.dart';
 import '../models/session_metrics_model.dart';
+import 'detection_service.dart';
+import '../models/risk_type.dart';
 
-/// Dummy service for session metrics.
-/// Keeps ApiConsumer wiring ready for backend integration.
 class SessionService {
-  SessionService(this._apiConsumer);
+  final DetectionService _detectionService;
 
-  final ApiConsumer _apiConsumer;
+  SessionService(this._detectionService);
 
-  Future<SessionMetricsModel> getMetrics({
-    required int tick,
-  }) async {
-    // Dummy delay to mimic async work.
-    await Future<void>.delayed(const Duration(milliseconds: 50));
+  Future<SessionMetricsModel> getMetrics({required int tick}) async {
+    final result = await _detectionService.detect();
 
-    // Create deterministic-ish values based on tick.
-    final probability = () {
-      final base = 12 + (tick % 10) * 8; // 12..84
-      final bump = tick % 24 < 6 ? 18 : 0; // occasionally push above threshold
-      return (base + bump).clamp(0, 100);
-    }();
-
-    final status = probability >= 85
-        ? AppStrings.statusSleepy
-        : probability >= 55
-            ? AppStrings.statusDrowsy
-            : AppStrings.statusNormal;
-
-    final riskLabel = probability >= 75 ? AppStrings.highRisk : AppStrings.lowRisk;
-
-    // For now threshold is fixed to match UI design.
-    const threshold = 75;
+    final alertType = _detectAlert(result);
+    final description = _getDescription(alertType, result);
 
     return SessionMetricsModel(
-      sleepinessProbability: probability,
-      status: status,
-      riskLabel: riskLabel,
-      alertThreshold: threshold,
+      sleepinessProbability: result.sleepiness,
+      alert: alertType,
+      status: result.status,
+      risk: _mapRisk(result.risk),
+      isYawning: result.isYawning,
+      isLookingAway: result.isLookingAway,
+      detectedObject: result.object,
+      imageURL: result.imageURL,
+      description: description,
+    );
+  }
+
+  AlertType _detectAlert(DetectionResult result) {
+    if (result.sleepiness >= DummyData.alertThreshold) {
+      return AlertType.drowsiness;
+    } else if (result.isYawning) {
+      return AlertType.yawning;
+    } else if (result.isLookingAway) {
+      return AlertType.distraction;
+    } else if (result.object != null) {
+      return AlertType.object;
+    }
+
+    return AlertType.none;
+  }
+
+  String _getDescription(AlertType type, DetectionResult result) {
+    String description = AppStrings.alertDescription[type]!;
+
+    if (type == AlertType.object && result.object != null) {
+      description += result.object!;
+    }
+
+    return description;
+  }
+
+  RiskType _mapRisk(String risk) {
+    return RiskType.values.firstWhere(
+      (e) => e.toString() == risk,
+      orElse: () => RiskType.low,
     );
   }
 }
-

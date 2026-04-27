@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import '../../../../core/network/api_consumer.dart';
-import '../models/session_event_log_model.dart';
+import '../models/detection_log_model.dart';
 
 class SessionLogRemoteService {
   SessionLogRemoteService(this._apiConsumer);
@@ -18,7 +18,7 @@ class SessionLogRemoteService {
     }
   }
 
-  Future<void> syncToMainDatabase(List<SessionEventLogModel> logs) async {
+  Future<void> syncToMainDatabase(List<DetectionLogModel> logs) async {
     if (logs.isEmpty) return;
 
     // Dummy sync payload for backend endpoint that persists into PostgreSQL.

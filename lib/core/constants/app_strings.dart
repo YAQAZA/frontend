@@ -1,3 +1,5 @@
+import 'package:yaqazah/features/session/model/models/alert_type.dart';
+
 class AppStrings {
   AppStrings._();
 
@@ -91,7 +93,7 @@ class AppStrings {
   static const String alertVolume = 'Alert Volume';
   static const String testAlertSound = 'Test Alert Sound';
   static const String appVersionLabel = 'Yaqazah AI Monitoring v2.4.0';
-  
+
   // Session
   static const String liveMonitoringTitle = 'Yaqazah';
   static const String sessionHeaderSubtitle = 'LIVE MONITORING';
@@ -148,8 +150,7 @@ class AppStrings {
   static const String validationNameRequired = 'Name is required';
   static const String validationConfirmPasswordRequired =
       'Confirm password is required';
-  static const String validationPasswordsNotMatch =
-      'Passwords do not match';
+  static const String validationPasswordsNotMatch = 'Passwords do not match';
   static const String validationPasswordMin8 =
       'Password must be at least 8 characters';
 
@@ -163,4 +164,12 @@ class AppStrings {
       'Your password was changed successfully please login to you account.';
   static const String validationCurrentPasswordWrong =
       'Current password is incorrect';
+
+  static const Map<AlertType, String> alertDescription = {
+    AlertType.drowsiness: "Signs of fatigue detected.",
+    AlertType.sleepiness: "High fatigue detected. Stop driving.",
+    AlertType.yawning: "Yawning detected. You may be sleepy.",
+    AlertType.distraction: "You are looking away from the road.",
+    AlertType.object: "Object detected: ",
+  };
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widget/app_surface_card.dart';
-import '../../model/models/log_history_item_model.dart';
+import '../../model/models/history_session_model.dart';
 
 class LogHistorySessionCard extends StatelessWidget {
   const LogHistorySessionCard({
@@ -11,13 +11,13 @@ class LogHistorySessionCard extends StatelessWidget {
     required this.onTap,
   });
 
-  final LogHistoryItemModel session;
+  final HistorySessionModel session;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final accentColor = _colorFromHex(session.statusColorHex);
+    final accentColor = AppColors.logoBackground;
     return GestureDetector(
       onTap: onTap,
       child: AppSurfaceCard(
@@ -106,8 +106,3 @@ class LogHistorySessionCard extends StatelessWidget {
   }
 }
 
-Color _colorFromHex(String hexColor) {
-  final normalized = hexColor.replaceAll('#', '');
-  final value = int.tryParse('FF$normalized', radix: 16) ?? 0xFF4CAF50;
-  return Color(value);
-}

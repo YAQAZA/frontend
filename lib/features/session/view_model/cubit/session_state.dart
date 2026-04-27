@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../model/models/session_alert_type.dart';
+import '../../model/models/alert_type.dart';
 import '../../model/models/session_metrics_model.dart';
 
 sealed class SessionState extends Equatable {
@@ -23,24 +22,26 @@ final class SessionActive extends SessionState {
     required this.elapsed,
     required this.metrics,
     required this.alertType,
-    required this.remindCount,
-    required this.threshold,
   });
 
   final Duration elapsed;
   final SessionMetricsModel metrics;
-  final SessionAlertType alertType;
-  final int remindCount;
-  final int threshold;
+  final AlertType alertType;
+
+  SessionActive copyWith({
+    Duration? elapsed,
+    SessionMetricsModel? metrics,
+    AlertType? alertType,
+  }) {
+    return SessionActive(
+      elapsed: elapsed ?? this.elapsed,
+      metrics: metrics ?? this.metrics,
+      alertType: alertType ?? this.alertType,
+    );
+  }
 
   @override
-  List<Object?> get props => [
-        elapsed,
-        metrics,
-        alertType,
-        remindCount,
-        threshold,
-      ];
+  List<Object?> get props => [elapsed, metrics, alertType];
 }
 
 final class SessionPaused extends SessionState {
@@ -52,7 +53,7 @@ final class SessionPaused extends SessionState {
 
   final Duration elapsed;
   final SessionMetricsModel metrics;
-  final SessionAlertType alertType;
+  final AlertType alertType;
 
   @override
   List<Object?> get props => [elapsed, metrics, alertType];
@@ -61,4 +62,3 @@ final class SessionPaused extends SessionState {
 final class SessionEnded extends SessionState {
   const SessionEnded();
 }
-

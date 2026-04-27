@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class LogHistoryItemModel extends Equatable {
-  const LogHistoryItemModel({
+class HistorySessionModel extends Equatable {
+  const HistorySessionModel({
     required this.id,
     required this.startedAtLabel,
     required this.statusLabel,
     required this.durationLabel,
     required this.alertsDetected,
-    required this.statusColorHex,
   });
 
   final String id;
@@ -15,16 +14,14 @@ class LogHistoryItemModel extends Equatable {
   final String statusLabel;
   final String durationLabel;
   final int alertsDetected;
-  final String statusColorHex;
 
-  factory LogHistoryItemModel.fromJson(Map<String, dynamic> json) {
-    return LogHistoryItemModel(
+  factory HistorySessionModel.fromJson(Map<String, dynamic> json) {
+    return HistorySessionModel(
       id: (json['id'] ?? '') as String,
       startedAtLabel: (json['startedAtLabel'] ?? '') as String,
       statusLabel: (json['statusLabel'] ?? '') as String,
       durationLabel: (json['durationLabel'] ?? '') as String,
       alertsDetected: (json['alertsDetected'] ?? 0) as int,
-      statusColorHex: (json['statusColorHex'] ?? '#4CAF50') as String,
     );
   }
 
@@ -35,6 +32,5 @@ class LogHistoryItemModel extends Equatable {
         statusLabel,
         durationLabel,
         alertsDetected,
-        statusColorHex,
       ];
 }

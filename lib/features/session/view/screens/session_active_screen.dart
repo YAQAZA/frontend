@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
-import '../../model/models/session_alert_type.dart';
+import '../../model/models/alert_type.dart';
 import '../widgets/camera_widget.dart';
 import '../widgets/metrics_widget.dart';
 import '../widgets/session_app_header.dart';
@@ -40,28 +39,31 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
 
     final status = await Permission.camera.request();
 
-    if (status.isGranted) {
-      // continue
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
-      return;
-    } else {
-      return;
-    }
-
     if (!status.isGranted) {
+      if (status.isPermanentlyDenied) {
+        openAppSettings();
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Camera permission is required")),
       );
+
       _cameraInitializing = false;
       return;
     }
 
     final cameras = await availableCameras();
+
+    if (cameras.isEmpty) {
+      _cameraInitializing = false;
+      return;
+    }
+
     final selected = cameras.firstWhere(
       (d) => d.lensDirection == CameraLensDirection.back,
       orElse: () => cameras.first,
     );
+
     final controller = CameraController(
       selected,
       ResolutionPreset.medium,
@@ -69,14 +71,16 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
     );
 
     await controller.initialize();
+
     if (!mounted) return;
+
     setState(() {
       _cameraController = controller;
     });
+
     _cameraInitializing = false;
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final paddingH = SizeHelper.screenPaddingHorizontal(context);
@@ -88,20 +92,22 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
         }
 
         if (state is SessionActive) {
-          final shouldShowDialog = state.alertType != SessionAlertType.none;
+          final shouldShowDialog = state.alertType != AlertType.none;
+
           if (shouldShowDialog && !_dialogShown) {
             _dialogShown = true;
+
             await showDialog<void>(
               context: context,
               barrierDismissible: false,
               builder: (dialogContext) {
                 return SessionAlertDialog(
                   alertType: state.alertType,
-                  remindCount: state.remindCount,
+
                   onRemind: () {
-                    context.read<SessionCubit>().remindAlert();
                     Navigator.of(dialogContext).pop();
                   },
+
                   onAcknowledge: () {
                     context.read<SessionCubit>().acknowledgeAlert();
                     Navigator.of(dialogContext).pop();
@@ -109,13 +115,14 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
                 );
               },
             );
+
+            if (!mounted) return;
           }
 
-          if (state.alertType == SessionAlertType.none) {
+          if (state.alertType == AlertType.none && _dialogShown) {
             _dialogShown = false;
           }
         }
-
         if (state is SessionEnded) {
           Navigator.pushNamedAndRemoveUntil(
             context,
@@ -130,16 +137,16 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
             : state is SessionPaused
             ? state.metrics
             : null;
+
         final elapsed = state is SessionActive
             ? state.elapsed
             : state is SessionPaused
             ? state.elapsed
             : Duration.zero;
-        final sleepinessProbability = metrics?.sleepinessProbability ?? 0;
-        final threshold = metrics?.alertThreshold ?? 75;
 
+        final sleepinessProbability = metrics?.sleepinessProbability ?? 0;
         final status = metrics?.status ?? AppStrings.statusNormal;
-        final riskLabel = metrics?.riskLabel ?? AppStrings.lowRisk;
+        final riskLabel = metrics?.risk.name ?? AppStrings.lowRisk;
 
         final chipColor = status == AppStrings.statusNormal
             ? AppColors.chipNormalBg
@@ -171,9 +178,20 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
                 TimerWidget(elapsed: elapsed),
                 CameraWidget(),
                 SizedBox(height: AppValues.spacingMedium),
-                StatusWidget(paddingH: paddingH, chipColor: chipColor, borderColor: borderColor, status: status),
+                StatusWidget(
+                  paddingH: paddingH,
+                  chipColor: chipColor,
+                  borderColor: borderColor,
+                  status: status,
+                ),
                 SizedBox(height: AppValues.spacingMedium),
-                MetricsWidget(paddingH: paddingH, sleepinessProbability: sleepinessProbability, barColor: barColor, riskLabel: riskLabel, threshold: threshold, isPaused: isPaused),
+                MetricsWidget(
+                  paddingH: paddingH,
+                  sleepinessProbability: sleepinessProbability,
+                  barColor: barColor,
+                  riskLabel: riskLabel,
+                  isPaused: isPaused,
+                ),
               ],
             ),
           ),
@@ -182,5 +200,3 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
     );
   }
 }
-
-

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../model/models/log_history_item_model.dart';
+import '../../model/models/history_session_model.dart';
 import '../../model/models/log_history_session_details_model.dart';
 import '../../model/models/log_history_summary_model.dart';
 
@@ -27,8 +27,8 @@ final class LogHistoryLoaded extends LogHistoryState {
   });
 
   final LogHistorySummaryModel summary;
-  final List<LogHistoryItemModel> todayLogs;
-  final List<LogHistoryItemModel> yesterdayLogs;
+  final List<HistorySessionModel> todayLogs;
+  final List<HistorySessionModel> yesterdayLogs;
 
   @override
   List<Object?> get props => [summary, todayLogs, yesterdayLogs];

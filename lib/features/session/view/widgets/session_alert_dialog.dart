@@ -2,25 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widget/core_widgets.dart';
-import '../../model/models/session_alert_type.dart';
+import '../../model/models/alert_type.dart';
 
 class SessionAlertDialog extends StatelessWidget {
   const SessionAlertDialog({
     super.key,
     required this.alertType,
-    required this.remindCount,
     required this.onRemind,
     required this.onAcknowledge,
   });
 
-  final SessionAlertType alertType;
-  final int remindCount;
+  final AlertType alertType;
   final VoidCallback onRemind;
   final VoidCallback onAcknowledge;
 
   @override
   Widget build(BuildContext context) {
-    final isDistraction = alertType == SessionAlertType.distraction;
+    final isDistraction = alertType == AlertType.distraction;
 
     final Color topBarColor =
         isDistraction ? AppColors.primaryColor : AppColors.sleepy;
@@ -85,7 +83,6 @@ class SessionAlertDialog extends StatelessWidget {
                           expandWidth: true,
                           fixedHeight: AppValues.buttonHeight,
                           onPressed: onRemind,
-                          label: '${AppStrings.remind} ($remindCount)',
                           foregroundColor: AppColors.textDark,
                         ),
                       ),

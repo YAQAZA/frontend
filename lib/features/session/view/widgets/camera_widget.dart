@@ -1,14 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_values.dart';
-import '../../model/models/session_metrics_model.dart';
-import '../../model/services/detection_service.dart';
-import '../../model/services/feature_service.dart';
 import '../../view_model/cubit/session_cubit.dart';
 
 class CameraWidget extends StatefulWidget {

@@ -44,30 +44,34 @@ Future<void> startSession() async {
 
 Future<void> updateMetrics(CameraImage image) async {
   if (state is! SessionActive) return;
+  if (_isProcessing) return;
+  _isProcessing = true;
 
-  final current = state as SessionActive;
+  try {
+    final current = state as SessionActive;
 
-  SessionMetricsModel metrics = await _repository.getMetrics(tick: _tick, image: image);
+    final metrics = await _repository.getMetrics(tick: _tick, image: image);
 
-  if (metrics.alert != AlertType.none &&
-      metrics.alert != _lastAlert) {
-    _lastAlert = metrics.alert;
+    if (metrics.alert != AlertType.none && metrics.alert != _lastAlert) {
+      _lastAlert = metrics.alert;
 
-    _repository.saveAlertLog(
-      sessionId: _sessionId,
+      await _repository.saveAlertLog(
+        sessionId: _sessionId,
+        alertType: metrics.alert,
+        sleepinessProbability: metrics.sleepinessProbability,
+        severity: metrics.status,
+        description: metrics.description,
+        imageURL: metrics.imageURL,
+      );
+    }
+
+    emit(current.copyWith(
+      metrics: metrics,
       alertType: metrics.alert,
-      elapsed: current.elapsed,
-      sleepinessProbability: metrics.sleepinessProbability,
-      severity: metrics.status,
-      description: metrics.description,
-      imageURL: metrics.imageURL,
-    );
+    ));
+  } finally {
+    _isProcessing = false;
   }
-
-  emit(current.copyWith(
-    metrics: metrics,
-    alertType: metrics.alert,
-  ));
 }
 
   // =========================
@@ -108,8 +112,9 @@ Future<void> updateMetrics(CameraImage image) async {
   if (current is SessionActive) {
     emit(current.copyWith(
       elapsed: elapsed,
-      alertType: AlertType.none,
+      alertType: current.alertType,
     ));
+    await _repository.syncPendingLogsIfOnline();
   }
 }
 
@@ -132,8 +137,7 @@ Future<void> updateMetrics(CameraImage image) async {
   // END SESSION
   Future<void> endSession() async {
     await _stopTimer();
-
-    // await _repository.syncPendingLogsIfOnline();
+    await _repository.syncPendingLogsIfOnline();
 
     emit(const SessionEnded());
   }

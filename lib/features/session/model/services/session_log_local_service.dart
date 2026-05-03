@@ -7,7 +7,7 @@ class SessionLogLocalService {
   SessionLogLocalService();
 
   static const String _databaseName = 'yaqazah_logs.db';
-  static const int _databaseVersion = 1;
+  static const int _databaseVersion = 2;
   static const String _tableName = 'session_alert_logs';
 
   Database? _database;
@@ -22,21 +22,30 @@ class SessionLogLocalService {
       path,
       version: _databaseVersion,
       onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE $_tableName(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            session_id TEXT NOT NULL,
-            alert_type TEXT NOT NULL,
-            detected_at_iso TEXT NOT NULL,
-            elapsed_seconds INTEGER NOT NULL,
-            sleepiness_probability INTEGER NOT NULL,
-            status_label TEXT NOT NULL,
-            synced INTEGER NOT NULL DEFAULT 0
-          )
-        ''');
+        await _createLogsTable(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        await db.execute('DROP TABLE IF EXISTS $_tableName');
+        await _createLogsTable(db);
       },
     );
     return _database!;
+  }
+
+  Future<void> _createLogsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE $_tableName(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id TEXT NOT NULL,
+        alert_type TEXT NOT NULL,
+        timestamp TEXT NOT NULL,
+        sleepiness_probability INTEGER NOT NULL,
+        severity TEXT NOT NULL,
+        description TEXT NOT NULL,
+        image_url TEXT NOT NULL,
+        synced INTEGER NOT NULL DEFAULT 0
+      )
+    ''');
   }
 
   Future<void> insertLog(DetectionLogModel log) async {

@@ -28,7 +28,6 @@ class SessionRepository {
   Future<void> saveAlertLog({
     required String sessionId,
     required AlertType alertType,
-    required Duration elapsed,
     required int sleepinessProbability,
     required String severity,
     required String imageURL,

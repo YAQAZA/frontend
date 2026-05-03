@@ -45,7 +45,7 @@ class PermissionTile extends StatelessWidget {
                     color: AppColors.textDark,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(

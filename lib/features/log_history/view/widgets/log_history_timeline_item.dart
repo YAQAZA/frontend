@@ -70,7 +70,7 @@ class LogHistoryTimelineItem extends StatelessWidget {
                     ),
                   ),
                   if (event.description.isNotEmpty) ...[
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     Row(
                       children: [
                         if (event.levelLabel.isNotEmpty)
@@ -92,7 +92,7 @@ class LogHistoryTimelineItem extends StatelessWidget {
                             ),
                           ),
                         if (event.levelLabel.isNotEmpty)
-                          SizedBox(width: AppValues.spacingSmall),
+                          SizedBox(width: AppValues.spacingXSmall),
                         Expanded(
                           child: Text(
                             event.description,
@@ -105,7 +105,7 @@ class LogHistoryTimelineItem extends StatelessWidget {
                     ),
                   ],
                   if (event.previewImageUrl != null) ...[
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(

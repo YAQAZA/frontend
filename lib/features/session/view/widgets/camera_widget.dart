@@ -98,16 +98,13 @@ class _CameraWidgetState extends State<CameraWidget> {
       content = const Center(child: Icon(Icons.videocam_off_rounded));
     }
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppValues.spacingMedium),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(AppValues.cameraCornerRadius),
-        child: Container(
-          height:
-              MediaQuery.sizeOf(context).height * AppValues.cameraHeightFactor,
-          color: AppColors.borderLight,
-          child: content,
-        ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppValues.cameraCornerRadius),
+      child: Container(
+        height:
+            MediaQuery.sizeOf(context).height * AppValues.cameraHeightFactor,
+        color: AppColors.borderLight,
+        child: content,
       ),
     );
   }

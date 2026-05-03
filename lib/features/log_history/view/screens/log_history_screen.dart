@@ -82,7 +82,7 @@ class _LogHistoryScreenState extends State<LogHistoryScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 const LogHistorySectionHeader(title: 'YESTERDAY'),
                 SizedBox(height: AppValues.spacingMedium),
                 ...state.yesterdayLogs.map(

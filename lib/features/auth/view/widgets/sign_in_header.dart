@@ -33,7 +33,7 @@ class SignInHeader extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         Text(
           headerTagline,
           style: theme.textTheme.bodyMedium?.copyWith(

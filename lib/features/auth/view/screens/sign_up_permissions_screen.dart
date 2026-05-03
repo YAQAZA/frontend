@@ -53,7 +53,7 @@ class _SignUpPermissionsScreenState extends State<SignUpPermissionsScreen> {
                     fontSize: AppValues.titleFontSize,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 Text(
                   AppStrings.systemPermissionsSubtitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
@@ -135,7 +135,7 @@ class _SignUpPermissionsScreenState extends State<SignUpPermissionsScreen> {
             ),
           ],
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         ClipRRect(
           borderRadius: BorderRadius.circular(999),
           child: LinearProgressIndicator(

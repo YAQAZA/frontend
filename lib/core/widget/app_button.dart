@@ -59,7 +59,7 @@ class AppButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(label, style: textStyle),
-          SizedBox(width: AppValues.spacingSmall),
+          SizedBox(width: AppValues.spacingXSmall),
           trailingIcon!,
         ],
       );

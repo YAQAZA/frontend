@@ -41,11 +41,11 @@ class ProfileScreen extends StatelessWidget {
                     color: AppColors.textDark,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: AppValues.spacingMedium,
-                    vertical: AppValues.spacingSmall,
+                    vertical: AppValues.spacingXSmall,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.inputBackground,
@@ -59,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                         color: AppColors.primaryColor,
                         size: 16,
                       ),
-                      SizedBox(width: AppValues.spacingSmall),
+                      SizedBox(width: AppValues.spacingXSmall),
                       Text(
                         user?.role ?? AppStrings.googleDriver,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -246,15 +246,13 @@ class ProfileScreen extends StatelessWidget {
         SizedBox(height: AppValues.spacingMedium),
         AppOutlinedButton(
           label: AppStrings.logOut,
-          onPressed: () => Navigator.pushNamedAndRemoveUntil(
+          onTap: () => Navigator.pushNamedAndRemoveUntil(
             context,
             AppRoutes.login,
             (route) => false,
           ),
-          borderColor: AppColors.danger,
-          backgroundColor: Colors.transparent,
-          foregroundColor: AppColors.danger,
-          fixedHeight: AppValues.buttonHeight,
+    
+          foregroundColor: AppColors.danger, icon: null,
         ),
       ],
     );
@@ -275,7 +273,7 @@ class ProfileScreen extends StatelessWidget {
             color: AppColors.textMedium,
           ),
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         Text(
           value,
           style: theme.textTheme.bodyMedium?.copyWith(

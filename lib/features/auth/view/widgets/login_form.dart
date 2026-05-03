@@ -68,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ),
         FormSection(
-          spacingAfter: AppValues.spacingSmall,
+          spacingAfter: AppValues.spacingXSmall,
           child: AppTextField(
             label: AppStrings.password,
             controller: _passwordController,

@@ -95,7 +95,7 @@ class _LogHistoryDetailsScreenState extends State<LogHistoryDetailsScreen> {
                     isLast: entry.key == details.timeline.length - 1,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(

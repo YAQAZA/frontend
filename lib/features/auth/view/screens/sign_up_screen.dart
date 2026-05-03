@@ -110,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontSize: AppValues.titleFontSize,
                       ),
                     ),
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     Text(
                       AppStrings.signUpTagline,
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -160,7 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ],
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         ClipRRect(
           borderRadius: BorderRadius.circular(999),
           child: LinearProgressIndicator(
@@ -242,7 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontSize: AppValues.labelFontSize,
                         ),
                   ),
-                  SizedBox(height: AppValues.spacingSmall),
+                  SizedBox(height: AppValues.spacingXSmall),
                   Row(
                     children: [
                       Expanded(

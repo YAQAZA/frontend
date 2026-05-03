@@ -45,7 +45,7 @@ class LogHistorySessionCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     Text(
                       session.startedAtLabel,
                       style: theme.textTheme.titleMedium?.copyWith(
@@ -53,7 +53,7 @@ class LogHistorySessionCard extends StatelessWidget {
                         color: AppColors.textDark,
                       ),
                     ),
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     Row(
                       children: [
                         const Icon(
@@ -61,7 +61,7 @@ class LogHistorySessionCard extends StatelessWidget {
                           size: 16,
                           color: AppColors.textMedium,
                         ),
-                        SizedBox(width: AppValues.spacingSmall),
+                        SizedBox(width: AppValues.spacingXSmall),
                         Text(
                           session.durationLabel,
                           style: theme.textTheme.bodyMedium?.copyWith(
@@ -74,7 +74,7 @@ class LogHistorySessionCard extends StatelessWidget {
                           size: 16,
                           color: AppColors.textMedium,
                         ),
-                        SizedBox(width: AppValues.spacingSmall),
+                        SizedBox(width: AppValues.spacingXSmall),
                         Text(
                           '${session.alertsDetected} alerts detected',
                           style: theme.textTheme.bodyMedium?.copyWith(

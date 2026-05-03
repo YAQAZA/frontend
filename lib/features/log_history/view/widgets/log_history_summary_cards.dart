@@ -29,7 +29,7 @@ class LogHistorySummaryCards extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -39,7 +39,7 @@ class LogHistorySummaryCards extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(width: AppValues.spacingSmall),
+                    SizedBox(width: AppValues.spacingXSmall),
                     Text(
                       '+${summary.safetyDelta}%',
                       style: textTheme.bodyMedium?.copyWith(
@@ -53,7 +53,7 @@ class LogHistorySummaryCards extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: AppValues.spacingSmall),
+        SizedBox(width: AppValues.spacingXSmall),
         Expanded(
           child: AppSurfaceCard(
             child: Column(
@@ -66,7 +66,7 @@ class LogHistorySummaryCards extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: AppValues.spacingSmall),
+                SizedBox(height: AppValues.spacingXSmall),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -76,7 +76,7 @@ class LogHistorySummaryCards extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(width: AppValues.spacingSmall),
+                    SizedBox(width: AppValues.spacingXSmall),
                     Text(
                       'in last 30 days',
                       style: textTheme.bodyMedium?.copyWith(

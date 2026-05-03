@@ -83,7 +83,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         fontSize: AppValues.titleFontSize,
                       ),
                     ),
-                    SizedBox(height: AppValues.spacingSmall),
+                    SizedBox(height: AppValues.spacingXSmall),
                     Text(
                       AppStrings.forgotPasswordTagline,
                       style: theme.textTheme.bodyMedium?.copyWith(

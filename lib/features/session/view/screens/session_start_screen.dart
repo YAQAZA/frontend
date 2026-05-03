@@ -113,7 +113,7 @@ class SessionStartScreen extends StatelessWidget {
             ),
           ),
           Text(
-            '${AppValues.sessionSafetyScore}',
+            DummyData.sessionSafetyScore,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontSize: 32,
                   fontWeight: FontWeight.w800,

@@ -80,20 +80,17 @@ class SessionAlertDialog extends StatelessWidget {
                     children: [
                       Expanded(
                         child: AppOutlinedButton(
-                          expandWidth: true,
-                          fixedHeight: AppValues.buttonHeight,
-                          onPressed: onRemind,
-                          foregroundColor: AppColors.textDark,
+                          onTap: onRemind,
+                          foregroundColor: AppColors.textDark, icon: null, label: 'remind',
                         ),
                       ),
                       SizedBox(width: AppValues.spacingMedium),
                       Expanded(
                         child: AppFilledIconButton(
-                          expandWidth: true,
-                          height: AppValues.buttonHeight,
-                          onPressed: onAcknowledge,
+                          onTap: onAcknowledge,
                           icon: Icons.check_circle,
                           label: AppStrings.iamAlert,
+                          
                         ),
                       ),
                     ],

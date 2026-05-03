@@ -45,22 +45,22 @@ class AppTextField extends StatelessWidget {
       fillColor: AppColors.inputBackground,
       errorText: errorText,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppValues.inputBorderRadius),
+        borderRadius: BorderRadius.circular(AppValues.borderRadius),
         borderSide: const BorderSide(color: AppColors.borderLight),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppValues.inputBorderRadius),
+        borderRadius: BorderRadius.circular(AppValues.borderRadius),
         borderSide: const BorderSide(color: AppColors.borderLight),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppValues.inputBorderRadius),
+        borderRadius: BorderRadius.circular(AppValues.borderRadius),
         borderSide: const BorderSide(
           color: AppColors.primaryColor,
           width: 1.5,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppValues.inputBorderRadius),
+        borderRadius: BorderRadius.circular(AppValues.borderRadius),
         borderSide: const BorderSide(color: AppColors.error),
       ),
       suffixIcon: suffix ?? (showSuccessIcon ? _successIcon() : null),
@@ -93,7 +93,7 @@ class AppTextField extends StatelessWidget {
             fontSize: AppValues.labelFontSize,
           ),
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         TextFormField(
           controller: controller,
           obscureText: obscureText,

@@ -146,4 +146,6 @@ static const Map<String, Map<String, dynamic>> dummySessionDetails =
   },
 };
 
+static String sessionSafetyScore = '94';
+
 }

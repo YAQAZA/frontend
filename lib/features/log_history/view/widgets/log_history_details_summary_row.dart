@@ -29,7 +29,7 @@ class LogHistoryDetailsSummaryRow extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: AppValues.spacingSmall),
+        SizedBox(width: AppValues.spacingXSmall),
         Expanded(
           child: AppSurfaceCard(
             child: _summaryCell(
@@ -40,7 +40,7 @@ class LogHistoryDetailsSummaryRow extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: AppValues.spacingSmall),
+        SizedBox(width: AppValues.spacingXSmall),
         Expanded(
           child: AppSurfaceCard(
             child: _summaryCell(
@@ -71,7 +71,7 @@ class LogHistoryDetailsSummaryRow extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(height: AppValues.spacingSmall),
+        SizedBox(height: AppValues.spacingXSmall),
         Text(
           value,
           style: textTheme.bodyMedium?.copyWith(

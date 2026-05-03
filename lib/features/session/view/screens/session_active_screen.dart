@@ -172,25 +172,36 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
           backgroundColor: AppColors.backgroundLight,
           body: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SessionAppHeader(),
-                TimerWidget(elapsed: elapsed),
-                CameraWidget(),
-                SizedBox(height: AppValues.spacingMedium),
-                StatusWidget(
-                  paddingH: paddingH,
-                  chipColor: chipColor,
-                  borderColor: borderColor,
-                  status: status,
-                ),
-                SizedBox(height: AppValues.spacingMedium),
-                MetricsWidget(
-                  paddingH: paddingH,
-                  sleepinessProbability: sleepinessProbability,
-                  barColor: barColor,
-                  riskLabel: riskLabel,
-                  isPaused: isPaused,
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: paddingH,
+                      vertical: AppValues.spacingSmall,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TimerWidget(elapsed: elapsed),
+                        SizedBox(height: AppValues.spacingMedium),
+                        CameraWidget(),
+                        SizedBox(height: AppValues.spacingMedium),
+                        StatusWidget(
+                          chipColor: chipColor,
+                          borderColor: borderColor,
+                          status: status,
+                        ),
+                        SizedBox(height: AppValues.spacingMedium),
+                        MetricsWidget(
+                          sleepinessProbability: sleepinessProbability,
+                          barColor: barColor,
+                          riskLabel: riskLabel,
+                          isPaused: isPaused,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

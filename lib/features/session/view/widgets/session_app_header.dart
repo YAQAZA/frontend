@@ -18,7 +18,6 @@ class SessionAppHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const SizedBox(width: 4),
           Container(
             width: AppValues.sessionHeaderDotSize,
             height: AppValues.sessionHeaderDotSize,

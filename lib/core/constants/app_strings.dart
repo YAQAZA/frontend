@@ -109,7 +109,8 @@ class AppStrings {
   static const String lowRisk = 'Low Risk';
   static const String highRisk = 'High Risk';
   static const String alertThreshold = 'Alert Threshold: 75%';
-  static const String pauseSession = 'Pause Session';
+  static const String pauseSession = 'Pause';
+    static const String resumeSession = 'Resume';
   static const String endSession = 'End Session';
   static const String statusNormal = 'NORMAL';
   static const String statusDrowsy = 'DROWSY';

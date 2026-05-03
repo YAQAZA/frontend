@@ -81,9 +81,7 @@ class _AlertSensitivityScreenState extends State<AlertSensitivityScreen> {
             ),
             SizedBox(height: AppValues.spacingMedium),
             AppFilledIconButton(
-              expandWidth: true,
-              height: AppValues.buttonHeight,
-              onPressed: () {
+              onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(AppStrings.testAlertSound),
@@ -91,8 +89,8 @@ class _AlertSensitivityScreenState extends State<AlertSensitivityScreen> {
                   ),
                 );
               },
+               label: '',
               icon: Icons.volume_up,
-              label: AppStrings.testAlertSound,
             ),
             const Spacer(),
             Center(
@@ -117,7 +115,7 @@ class _AlertSensitivityScreenState extends State<AlertSensitivityScreen> {
   }) {
     final theme = Theme.of(context);
     return Padding(
-      padding: EdgeInsets.only(bottom: AppValues.spacingSmall),
+      padding: EdgeInsets.only(bottom: AppValues.spacingXSmall),
       child: Row(
         children: [
           Container(

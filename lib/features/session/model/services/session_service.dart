@@ -1,3 +1,6 @@
+
+import 'package:camera/camera.dart';
+
 import '../../../../core/constants/constants.dart';
 import '../models/alert_type.dart';
 import '../models/detection_result.dart';
@@ -10,8 +13,8 @@ class SessionService {
 
   SessionService(this._detectionService);
 
-  Future<SessionMetricsModel> getMetrics({required int tick}) async {
-    final result = await _detectionService.detect();
+  Future<SessionMetricsModel> getMetrics({required int tick, required CameraImage image}) async {
+    final result = await _detectionService.detect(image); 
 
     final alertType = _detectAlert(result);
     final description = _getDescription(alertType, result);

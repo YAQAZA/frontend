@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:camera/camera.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/models/alert_type.dart';
+import '../../model/models/session_metrics_model.dart';
 import '../../model/repositories/session_repository.dart';
 import 'session_state.dart';
 
@@ -21,28 +23,52 @@ class SessionCubit extends Cubit<SessionState> {
   // =========================
   // START SESSION
   // =========================
-  Future<void> startSession() async {
-    await _stopTimer();
+Future<void> startSession() async {
+  await _stopTimer();
 
-    _tick = 0;
-    _startTime = DateTime.now();
-    _lastAlert = AlertType.none;
-    _sessionId = DateTime.now().millisecondsSinceEpoch.toString();
+  _tick = 0;
+  _startTime = DateTime.now();
+  _lastAlert = AlertType.none;
+  _sessionId = DateTime.now().millisecondsSinceEpoch.toString();
 
-    emit(const SessionStarting());
+  emit(const SessionStarting());
 
-    final metrics = await _repository.getMetrics(tick: _tick);
+  emit(SessionActive(
+    elapsed: Duration.zero,
+    metrics: null,
+    alertType: AlertType.none,
+  ));
 
-    if (isClosed) return;
+  _startTimer();
+}
 
-    emit(SessionActive(
-      elapsed: Duration.zero,
-      metrics: metrics,
-      alertType: AlertType.none,
-    ));
+Future<void> updateMetrics(CameraImage image) async {
+  if (state is! SessionActive) return;
 
-    _startTimer();
+  final current = state as SessionActive;
+
+  SessionMetricsModel metrics = await _repository.getMetrics(tick: _tick, image: image);
+
+  if (metrics.alert != AlertType.none &&
+      metrics.alert != _lastAlert) {
+    _lastAlert = metrics.alert;
+
+    _repository.saveAlertLog(
+      sessionId: _sessionId,
+      alertType: metrics.alert,
+      elapsed: current.elapsed,
+      sleepinessProbability: metrics.sleepinessProbability,
+      severity: metrics.status,
+      description: metrics.description,
+      imageURL: metrics.imageURL,
+    );
   }
+
+  emit(current.copyWith(
+    metrics: metrics,
+    alertType: metrics.alert,
+  ));
+}
 
   // =========================
   void resumeSession() {
@@ -85,49 +111,7 @@ class SessionCubit extends Cubit<SessionState> {
       alertType: AlertType.none,
     ));
   }
-
-  _fetchMetrics(elapsed);
 }
-
-Future<void> _fetchMetrics(Duration elapsed) async {
-  // if (_isProcessing || isClosed) return;
-
-  // _isProcessing = true;
-
-  // try {
-  //   final metrics = await _repository.getMetrics(tick: _tick);
-
-  //   if (_tick % 5 == 0) {
-  //     await _repository.syncPendingLogsIfOnline();
-  //   }
-
-  //   if (metrics.alert != AlertType.none &&
-  //       metrics.alert != _lastAlert) {
-  //     _lastAlert = metrics.alert;
-
-  //     // await _repository.saveAlertLog(
-  //     //   sessionId: _sessionId,
-  //     //   alertType: metrics.alert,
-  //     //   elapsed: elapsed,
-  //     //   sleepinessProbability: metrics.sleepinessProbability,
-  //     //   severity: metrics.status,
-  //     //   description: metrics.description,
-  //     //   imageURL: metrics.imageURL,
-  //     // );
-  //   }
-
-  //   if (isClosed) return;
-
-  //   emit(SessionActive(
-  //     elapsed: elapsed,
-  //     metrics: metrics,
-  //     alertType: metrics.alert,
-  //   ));
-  // } finally {
-  //   _isProcessing = false;
-  // }
-}
-
 
   // =========================
   // PAUSE SESSION
@@ -139,7 +123,7 @@ Future<void> _fetchMetrics(Duration elapsed) async {
 
     emit(SessionPaused(
       elapsed: current.elapsed,
-      metrics: current.metrics,
+      metrics: current.metrics!,
       alertType: current.alertType,
     ));
   }

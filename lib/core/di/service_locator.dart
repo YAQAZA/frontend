@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:yaqazah/features/session/model/services/detection_service.dart';
+import 'package:yaqazah/features/session/model/services/feature_service.dart';
 
 import '../constants/constants.dart';
 import '../database/database_service.dart';
@@ -55,7 +56,10 @@ Future<void> initServiceLocator() async {
     () => LogHistoryService(sl<ApiConsumer>()),
   );
   sl.registerLazySingleton<DetectionService>(
-    () => DetectionService(),
+    () => DetectionService(sl<FeatureService>()),
+  );
+  sl.registerLazySingleton<FeatureService>(
+    () => FeatureService(),
   );
 
   // 4. Repositories

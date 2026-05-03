@@ -1,3 +1,5 @@
+import 'package:camera/camera.dart';
+
 import '../models/session_metrics_model.dart';
 import '../models/detection_log_model.dart';
 import '../models/alert_type.dart';
@@ -18,8 +20,9 @@ class SessionRepository {
 
   Future<SessionMetricsModel> getMetrics({
     required int tick,
+    required CameraImage image,
   }) {
-    return _sessionService.getMetrics(tick: tick);
+    return _sessionService.getMetrics(tick: tick, image: image);
   }
 
   Future<void> saveAlertLog({

@@ -1,10 +1,33 @@
+import 'package:camera/camera.dart';
+
 import '../models/detection_result.dart';
+import 'feature_service.dart';
 
 class DetectionService {
-  // later → add TFLite interpreter here
+  final FeatureService featureService;
 
-  Future<DetectionResult> detect() async {
-    // TEMP (until ML is ready)
+  DetectionService(this.featureService);
+
+  Future<DetectionResult> detect(CameraImage image) async {
+    featureService.processFrame(image);
+
+
+    if (!featureService.isReady) {
+      return DetectionResult(
+        sleepiness: 0,
+        status: "Normal",
+        risk: "Low",
+        isYawning: false,
+        isLookingAway: false,
+        object: null,
+        imageURL: "",
+      );
+    }
+
+    return _mockResult();
+  }
+
+  DetectionResult _mockResult() {
     return DetectionResult(
       sleepiness: 85,
       status: "High",

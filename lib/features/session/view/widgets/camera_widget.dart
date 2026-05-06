@@ -1,14 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_values.dart';
-import '../../model/models/session_metrics_model.dart';
-import '../../model/services/detection_service.dart';
-import '../../model/services/feature_service.dart';
 import '../../view_model/cubit/session_cubit.dart';
 
 class CameraWidget extends StatefulWidget {
@@ -22,6 +18,7 @@ class _CameraWidgetState extends State<CameraWidget> {
   CameraController? _controller;
   bool _isLoading = true;
   String? _error;
+  bool isInit = false;
 
   @override
   void initState() {
@@ -67,8 +64,20 @@ class _CameraWidgetState extends State<CameraWidget> {
       );
 
       await controller.initialize();
-      controller.startImageStream((CameraImage image) async {
-        context.read<SessionCubit>().updateMetrics(image);
+
+      isInit = true;
+      int _frameCounter = 0;
+
+      controller.startImageStream((CameraImage image) {
+        if (!mounted || _controller == null) return;
+        _frameCounter++;
+
+        if (_frameCounter % 5 != 0) return;
+
+        if (isInit || context.read<SessionCubit>().isProcessing) {
+          context.read<SessionCubit>().updateMetrics(image);
+          isInit = false;
+        }
       });
 
       if (!mounted) return;
@@ -87,6 +96,7 @@ class _CameraWidgetState extends State<CameraWidget> {
 
   @override
   void dispose() {
+    _controller?.stopImageStream();
     _controller?.dispose();
     super.dispose();
   }
@@ -110,6 +120,7 @@ class _CameraWidgetState extends State<CameraWidget> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppValues.cameraCornerRadius),
       child: Container(
+        width: MediaQuery.of(context).size.width*0.8,
         height:
             MediaQuery.sizeOf(context).height * AppValues.cameraHeightFactor,
         color: AppColors.borderLight,

@@ -172,5 +172,6 @@ class AppStrings {
     AlertType.yawning: "Yawning detected. You may be sleepy.",
     AlertType.distraction: "You are looking away from the road.",
     AlertType.object: "Object detected: ",
+    AlertType.none: "You are alert and focused."
   };
 }

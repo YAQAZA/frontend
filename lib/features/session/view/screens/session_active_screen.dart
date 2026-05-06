@@ -1,7 +1,5 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/utils/size_helper.dart';
@@ -23,62 +21,17 @@ class SessionActiveScreen extends StatefulWidget {
 }
 
 class _SessionActiveScreenState extends State<SessionActiveScreen> {
-  CameraController? _cameraController;
-  bool _cameraInitializing = false;
   bool _dialogShown = false;
 
   @override
-  void dispose() {
-    _cameraController?.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    
   }
 
-  Future<void> _ensureCamera() async {
-    if (_cameraController != null || _cameraInitializing) return;
-    _cameraInitializing = true;
-
-    final status = await Permission.camera.request();
-
-    if (!status.isGranted) {
-      if (status.isPermanentlyDenied) {
-        openAppSettings();
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Camera permission is required")),
-      );
-
-      _cameraInitializing = false;
-      return;
-    }
-
-    final cameras = await availableCameras();
-
-    if (cameras.isEmpty) {
-      _cameraInitializing = false;
-      return;
-    }
-
-    final selected = cameras.firstWhere(
-      (d) => d.lensDirection == CameraLensDirection.back,
-      orElse: () => cameras.first,
-    );
-
-    final controller = CameraController(
-      selected,
-      ResolutionPreset.medium,
-      enableAudio: false,
-    );
-
-    await controller.initialize();
-
-    if (!mounted) return;
-
-    setState(() {
-      _cameraController = controller;
-    });
-
-    _cameraInitializing = false;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -87,10 +40,6 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
 
     return BlocConsumer<SessionCubit, SessionState>(
       listener: (context, state) async {
-        if (state is SessionActive || state is SessionPaused) {
-          await _ensureCamera();
-        }
-
         if (state is SessionActive) {
           final shouldShowDialog = state.alertType != AlertType.none;
 

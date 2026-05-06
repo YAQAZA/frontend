@@ -60,5 +60,9 @@ class SessionRepository {
         .toList(growable: false);
     await _sessionLogLocalService.markLogsAsSynced(ids);
   }
+
+  void loadModel(){
+      _sessionService.loadModel();
+  }
 }
 

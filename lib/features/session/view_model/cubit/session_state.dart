@@ -18,14 +18,14 @@ final class SessionStarting extends SessionState {
 }
 
 final class SessionActive extends SessionState {
-   SessionActive({
+  const SessionActive({
     required this.elapsed,
     required this.metrics,
     required this.alertType,
   });
 
   final Duration elapsed;
-  late SessionMetricsModel? metrics;
+  final SessionMetricsModel metrics;
   final AlertType alertType;
 
   SessionActive copyWith({

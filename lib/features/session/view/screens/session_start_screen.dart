@@ -69,7 +69,7 @@ class SessionStartScreen extends StatelessWidget {
                 onPressed: starting
                     ? null
                     : () {
-                        context.read<SessionCubit>().startSession();
+                        context.read<SessionCubit>().initSession();
                         Navigator.pushNamed(context, AppRoutes.sessionActive);
                       },
               ),

@@ -14,6 +14,8 @@ class SessionStartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    context.read<SessionCubit>().resetSession();
     final paddingH = SizeHelper.screenPaddingHorizontal(context);
 
     return Scaffold(

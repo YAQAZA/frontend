@@ -1,27 +1,78 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/widget/core_widgets.dart';
 import '../../model/models/alert_type.dart';
 
-class SessionAlertDialog extends StatelessWidget {
+class SessionAlertDialog extends StatefulWidget {
   const SessionAlertDialog({
     super.key,
     required this.alertType,
-    required this.onRemind,
     required this.onAcknowledge,
   });
 
   final AlertType alertType;
-  final VoidCallback onRemind;
   final VoidCallback onAcknowledge;
 
   @override
-  Widget build(BuildContext context) {
-    final isDistraction = alertType == AlertType.distraction;
+  State<SessionAlertDialog> createState() => _SessionAlertDialogState();
+}
 
-    final Color topBarColor =
-        isDistraction ? AppColors.primaryColor : AppColors.sleepy;
+class _SessionAlertDialogState extends State<SessionAlertDialog> {
+  int _seconds = AppValues.seconds;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final isDistraction = widget.alertType == AlertType.distraction;
+
+    // Auto acknowledge only for drowsiness
+    if (!isDistraction) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_seconds == 1) {
+          timer.cancel();
+
+          widget.onAcknowledge();
+
+          // if (mounted) {
+          //   Navigator.of(context).pop();
+          // }
+        } else {
+          setState(() {
+            _seconds--;
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _handleAcknowledge() {
+    _timer?.cancel();
+    widget.onAcknowledge();
+
+    // if (mounted) {
+    //   Navigator.of(context).pop();
+    // }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDistraction = widget.alertType == AlertType.distraction;
+
+    final Color topBarColor = isDistraction
+        ? AppColors.primaryColor
+        : AppColors.sleepy;
+
     final String title = isDistraction
         ? AppStrings.distractionDetected
         : AppStrings.drowsinessDetected;
@@ -40,62 +91,47 @@ class SessionAlertDialog extends StatelessWidget {
             child: Column(
               children: [
                 _buildIcon(isDistraction: isDistraction),
+
                 SizedBox(height: AppValues.spacingLarge),
+
                 Text(
                   title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textDark,
-                      ),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                  ),
                 ),
+
                 SizedBox(height: AppValues.spacingMedium),
-                if (isDistraction)
-                  const SizedBox.shrink()
-                else
+
+                if (!isDistraction)
                   Text(
                     AppStrings.drowsinessDetectedBody,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.textMedium,
-                        ),
+                      color: AppColors.textMedium,
+                    ),
                     textAlign: TextAlign.center,
                   ),
-                if (isDistraction) ...[
-                  SizedBox(height: AppValues.spacingLarge),
+
+                SizedBox(height: AppValues.spacingLarge),
+
+                if (isDistraction)
                   TextButton(
-                    onPressed: () {
-                      onAcknowledge();
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: _handleAcknowledge,
                     child: Text(
                       AppStrings.ok,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.primaryColor,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
+                  )
+                else
+                  AppFilledIconButton(
+                    onTap: _handleAcknowledge,
+                    icon: Icons.check_circle,
+                    label: 'I am Alert ($_seconds)',
                   ),
-                ] else ...[
-                  SizedBox(height: AppValues.spacingLarge),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppOutlinedButton(
-                          onTap: onRemind,
-                          foregroundColor: AppColors.textDark, icon: null, label: 'remind',
-                        ),
-                      ),
-                      SizedBox(width: AppValues.spacingMedium),
-                      Expanded(
-                        child: AppFilledIconButton(
-                          onTap: onAcknowledge,
-                          icon: Icons.check_circle,
-                          label: AppStrings.iamAlert,
-                          
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               ],
             ),
           ),
@@ -106,6 +142,7 @@ class SessionAlertDialog extends StatelessWidget {
 
   Widget _buildIcon({required bool isDistraction}) {
     final Color bg = isDistraction ? AppColors.primaryColor : AppColors.sleepy;
+
     return Container(
       width: 72,
       height: 72,
@@ -123,9 +160,7 @@ class SessionAlertDialog extends StatelessWidget {
             border: Border.all(color: bg.withValues(alpha: 0.6), width: 4),
           ),
           child: Icon(
-            isDistraction
-                ? Icons.warning_amber_rounded
-                : Icons.warning_rounded,
+            isDistraction ? Icons.warning_amber_rounded : Icons.warning_rounded,
             color: bg,
             size: 26,
           ),

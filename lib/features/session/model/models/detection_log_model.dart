@@ -6,6 +6,7 @@ class DetectionLogModel extends Equatable {
   const DetectionLogModel({
     this.id,
     required this.sessionId,
+    
     required this.alertType,
     required this.timestamp,
     required this.sleepinessProbability,

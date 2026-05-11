@@ -26,7 +26,6 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -41,7 +40,7 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
     return BlocConsumer<SessionCubit, SessionState>(
       listener: (context, state) async {
         if (state is SessionActive) {
-          final shouldShowDialog = state.alertType != AlertType.none;
+          final shouldShowDialog = state.showDialog;
 
           if (shouldShowDialog && !_dialogShown) {
             _dialogShown = true;
@@ -52,11 +51,6 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
               builder: (dialogContext) {
                 return SessionAlertDialog(
                   alertType: state.alertType,
-
-                  onRemind: () {
-                    Navigator.of(dialogContext).pop();
-                  },
-
                   onAcknowledge: () {
                     context.read<SessionCubit>().acknowledgeAlert();
                     Navigator.of(dialogContext).pop();
@@ -68,7 +62,7 @@ class _SessionActiveScreenState extends State<SessionActiveScreen> {
             if (!mounted) return;
           }
 
-          if (state.alertType == AlertType.none && _dialogShown) {
+          if (!state.showDialog && _dialogShown) {
             _dialogShown = false;
           }
         }

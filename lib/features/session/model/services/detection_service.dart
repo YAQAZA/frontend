@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:yaqazah/core/constants/app_logger.dart';
 import 'package:yaqazah/core/ui.dart';
 import '../models/detection_result.dart';
 import 'feature_service.dart';
@@ -44,12 +45,13 @@ Future<void> loadModel() async {
       );
     }
 
-    final sleepiness = await runModel(featureService.buffer);
+    final sleepiness = await runModel();
 
     return _getResult(sleepiness);
   }
 
-  Future<double> runModel(List<List<double>> buffer) async {
+  Future<double> runModel() async {
+    final buffer = featureService.buffer;
     final input = [buffer]; // shape [1,30,4]
     final output = List.filled(1, 0).reshape([1, 1]);
 
@@ -63,7 +65,7 @@ Future<void> loadModel() async {
       sleepiness: (sleepiness * 100).toInt(),
       status: sleepiness > 0.65 ? "High" : "Normal",
       risk: sleepiness > 0.65 ? "High Risk" : "Low Risk",
-      isYawning: false, // optional later
+      isYawning: false, 
       isLookingAway: false,
       object: null,
       imageURL: "",

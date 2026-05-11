@@ -15,7 +15,7 @@ class AppValues {
   static const double spacingMedium = 16.0;
   static const double spacingLarge = 24.0;
   static const double spacingXLarge = 32.0;
-  
+
   static const double titleFontSize = 28.0;
   static const double taglineFontSize = 14.0;
   static const double labelFontSize = 14.0;
@@ -47,4 +47,7 @@ class AppValues {
 
   static const double sessionStartShadowBlur = 18.0;
   static const double sessionStartShadowOffsetY = 12.0;
+
+  static const Duration alertCooldown = Duration(seconds: 30);
+  static const int seconds = 5;
 }

@@ -22,26 +22,30 @@ final class SessionActive extends SessionState {
     required this.elapsed,
     required this.metrics,
     required this.alertType,
+    required this.showDialog
   });
 
   final Duration elapsed;
   final SessionMetricsModel metrics;
   final AlertType alertType;
+  final bool showDialog;
 
   SessionActive copyWith({
     Duration? elapsed,
     SessionMetricsModel? metrics,
     AlertType? alertType,
+    bool? showDialog,
   }) {
     return SessionActive(
       elapsed: elapsed ?? this.elapsed,
       metrics: metrics ?? this.metrics,
       alertType: alertType ?? this.alertType,
+      showDialog: showDialog ?? this.showDialog,
     );
   }
 
   @override
-  List<Object?> get props => [elapsed, metrics, alertType];
+  List<Object?> get props => [elapsed, metrics, alertType, showDialog];
 }
 
 final class SessionPaused extends SessionState {

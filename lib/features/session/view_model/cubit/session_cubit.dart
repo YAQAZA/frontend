@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_logger.dart';
+import '../../../../core/constants/app_values.dart';
 import '../../model/models/alert_type.dart';
 import '../../model/repositories/session_repository.dart';
 import 'session_state.dart';
@@ -19,7 +20,9 @@ class SessionCubit extends Cubit<SessionState> {
   bool _started = false;
 
   bool _isProcessing = false;
+
   AlertType _lastAlert = AlertType.none;
+  DateTime? _lastAlertTime;
 
   // =========================
   // START SESSION
@@ -28,13 +31,27 @@ class SessionCubit extends Cubit<SessionState> {
     emit(const SessionStarting());
   }
 
+  void resetSession() {
+    _tick = 0;
+    _sessionId = '';
+    _startTime = null;
+    _started = false;
+    _isProcessing = false;
+    _lastAlert = AlertType.none;
+    _lastAlertTime = null;
+    _timer?.cancel();
+    _timer = null;
+    
+    emit(const SessionInitial());
+  }
+
   Future<void> startSession(CameraImage firstFrame) async {
-    AppLogger.logger.w('/#################START SESSION##################');
+    AppLogger.warning('/#################START SESSION##################');
 
     try {
       _repository.loadModel();
     } catch (e) {
-      AppLogger.logger.e(
+      AppLogger.error(
         '#################################################Error loading model: $e',
       );
     }
@@ -43,7 +60,6 @@ class SessionCubit extends Cubit<SessionState> {
     _startTime = DateTime.now();
     _isProcessing = true;
 
-
     final metrics = await _repository.getMetrics(tick: 0, image: firstFrame);
 
     emit(
@@ -51,6 +67,7 @@ class SessionCubit extends Cubit<SessionState> {
         elapsed: Duration.zero,
         metrics: metrics,
         alertType: AlertType.none,
+        showDialog: false,
       ),
     );
 
@@ -65,15 +82,20 @@ class SessionCubit extends Cubit<SessionState> {
     }
 
     if (!_isProcessing || state is! SessionActive) return;
-    AppLogger.logger.w('/#################UPDATE METRICS##################');
+    AppLogger.warning('/#################UPDATE METRICS##################');
 
     try {
       final current = state as SessionActive;
 
       final metrics = await _repository.getMetrics(tick: _tick, image: image);
+      bool currentCanShowAlert = _canShowAlert;
 
-      if (metrics.alert != AlertType.none && metrics.alert != _lastAlert) {
+      if (metrics.alert != AlertType.none &&
+          // metrics.alert != _lastAlert &&
+          currentCanShowAlert) {
+
         _lastAlert = metrics.alert;
+        _lastAlertTime = DateTime.now();
 
         await _repository.saveAlertLog(
           sessionId: _sessionId,
@@ -86,11 +108,9 @@ class SessionCubit extends Cubit<SessionState> {
         );
       }
 
-      emit(current.copyWith(metrics: metrics, alertType: metrics.alert));
+      emit(current.copyWith(metrics: metrics, alertType: metrics.alert, showDialog: currentCanShowAlert));
     } catch (e) {
-      AppLogger.logger.e(
-        '#################################################Error updating metrics: $e',
-      );
+      AppLogger.error('####Error updating metrics: $e');
     }
   }
 
@@ -107,6 +127,7 @@ class SessionCubit extends Cubit<SessionState> {
         elapsed: current.elapsed,
         metrics: current.metrics,
         alertType: AlertType.none,
+        showDialog: false,
       ),
     );
 
@@ -131,9 +152,29 @@ class SessionCubit extends Cubit<SessionState> {
     final current = state;
 
     if (current is SessionActive) {
-      emit(current.copyWith(elapsed: elapsed, alertType: AlertType.none));
+      emit(current.copyWith(elapsed: elapsed));
     }
   }
+
+
+// =========================
+  // ALERT ACKNOWLEDGE
+
+  bool get _canShowAlert {
+    if (_lastAlertTime == null) return true;
+
+    return DateTime.now().difference(_lastAlertTime!) > AppValues.alertCooldown;
+  }
+
+  void acknowledgeAlert() {
+    if (state is! SessionActive) return;
+
+    final current = state as SessionActive;
+
+    emit(current.copyWith(alertType: AlertType.none, showDialog: false));
+    _lastAlert = AlertType.none;
+  }
+
 
   // =========================
   // PAUSE SESSION
@@ -158,21 +199,11 @@ class SessionCubit extends Cubit<SessionState> {
     _isProcessing = false;
     await _stopTimer();
     _started = false;
-    AppLogger.logger.w('/#################END SESSION##################');
+    AppLogger.warning('/#################END SESSION##################');
 
     // await _repository.syncPendingLogsIfOnline();
 
     emit(const SessionEnded());
-  }
-
-  // =========================
-  // ALERT ACKNOWLEDGE
-  void acknowledgeAlert() {
-    if (state is! SessionActive) return;
-
-    final current = state as SessionActive;
-
-    emit(current.copyWith(alertType: AlertType.none));
   }
 
   // =========================
